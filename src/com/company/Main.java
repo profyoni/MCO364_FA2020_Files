@@ -3,9 +3,41 @@ package com.company;
 import java.io.*;
 import java.util.Scanner;
 
+class Zigwig implements Serializable
+{
+    int age;
+    float height;
+
+    String name;
+}
+
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        FileOutputStream fos = new FileOutputStream("zigwigsDecomposed.obj");
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        ObjectOutputStream oos = new ObjectOutputStream(bos); // Decorator Design Pattern
+
+        Zigwig zw = new Zigwig();
+        zw.age = -98;
+        zw.height = Float.NaN;
+        zw.name = "Bernie";
+
+        oos.writeObject(zw);
+        oos.flush();
+        //oos.close();
+
+        try(FileInputStream fis = new FileInputStream("zigwigsDecomposed.obj");
+            ObjectInputStream ois = new ObjectInputStream(fis)) // Decorator Design Pattern
+        {
+            Zigwig zw2 = (Zigwig) ois.readObject();
+            System.out.println(zw2.age);
+        }
+
+
+    }
+
+    public static void main2(String[] args) throws IOException {
        // print("mco364am.txt", "ABCDEFGHIJKLMNOPqrstuv");
         //System.out.println(read("mco364am.txt"));
 
